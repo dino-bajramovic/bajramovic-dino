@@ -177,3 +177,10 @@ app.put('/api/submissions/:id', requireAdminKey, async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
 });
+
+app.use(express.static(path.join(__dirname, 'dist')));
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
