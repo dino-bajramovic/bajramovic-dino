@@ -109,7 +109,13 @@ export default async function handler(req, res) {
     }
 
 
-    return res.status(405).json({ success: false, error: "Method Not Allowed", method });
+    return res.status(405).json({
+  success: false,
+  error: "Method Not Allowed",
+  seenMethod: req.method,
+  url: req.url,
+});
+
   } catch (e) {
     console.error(e);
     return res.status(500).json({ success: false, error: "Server error" });
