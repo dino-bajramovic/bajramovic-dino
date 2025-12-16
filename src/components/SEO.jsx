@@ -3,7 +3,7 @@
  */
 import { Helmet } from 'react-helmet-async';
 
-const rawSiteUrl = import.meta.env.VITE_SITE_URL || 'https://dino-bajramovic-3.onrender.com';
+const rawSiteUrl = import.meta.env.VITE_SITE_URL || 'https://dinobajramovic.com';
 const siteUrl = rawSiteUrl.replace(/\/$/, '');
 const pageTitle = 'Dino Bajramovic | Full-stack Web Developer for Modern Websites & Projects';
 const description = 'Portfolio of Dino Bajramovic, a full-stack web developer delivering scalable React and Node.js projects, showcasing work, stack, and contact options for modern, reliable websites.';
