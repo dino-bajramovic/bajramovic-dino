@@ -1,18 +1,22 @@
 import { getDb } from '../_db.js';
 
 const COLLECTION = 'submissions';
+const ALLOWED_ORIGINS = ['https://www.dinobajramovic.com'];
 
-const ORIGIN = process.env.CORS_ORIGIN || 'https://www.dinobajramovic.com';
+function applyCors(req, res) {
+  const origin = req.headers.origin;
 
-export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', ORIGIN);
-  res.setHeader('Vary', 'Origin');
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+  }
+
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-admin-key');
+}
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+export default async function handler(req, res) {
+  applyCors(req, res);
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();

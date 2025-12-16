@@ -2,6 +2,7 @@ import { getDb } from './_db.js';
 
 const COLLECTION = 'submissions';
 const MAX_MESSAGE = 1000;
+const ALLOWED_ORIGINS = ['https://www.dinobajramovic.com'];
 
 const parseBody = (req) => {
   if (!req.body) return {};
@@ -15,13 +16,20 @@ const parseBody = (req) => {
   return req.body;
 };
 
-export default async function handler(req, res) {
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-admin-key');
-    return res.status(200).end();
+function applyCors(req, res) {
+  const origin = req.headers.origin;
+
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
   }
+
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-admin-key');
+}
+
+export default async function handler(req, res) {
+  applyCors(req, res);
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -38,7 +46,9 @@ export default async function handler(req, res) {
 
   const trimmedMessage = String(message).trim();
   if (trimmedMessage.length > MAX_MESSAGE) {
-    return res.status(400).json({ success: false, error: `Message is too long (max ${MAX_MESSAGE} characters).` });
+    return res
+      .status(400)
+      .json({ success: false, error: `Message is too long (max ${MAX_MESSAGE} characters).` });
   }
 
   try {

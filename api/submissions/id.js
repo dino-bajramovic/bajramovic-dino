@@ -3,6 +3,7 @@ import { getDb } from "../_db.js";
 
 const COLLECTION = "submissions";
 const MAX_MESSAGE = 1000;
+const ALLOWED_ORIGINS = ["https://www.dinobajramovic.com"];
 
 const parseBody = (req) => {
   if (!req.body) return {};
@@ -24,23 +25,22 @@ function buildIdFilter(id) {
   return { $or: filters };
 }
 
-// Za test može "*", kasnije stavi tačan domen (preporučeno).
-const ALLOW_ORIGIN = process.env.CORS_ORIGIN || "*";
+function applyCors(req, res) {
+  const origin = req.headers.origin;
+
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Vary", "Origin");
+  }
+
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-admin-key");
+}
 
 export default async function handler(req, res) {
   const method = String(req.method || "").toUpperCase();
 
-  // CORS headers moraju biti postavljeni prije bilo kakvog return-a
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-admin-key");
-
-  // Ako je "*" ne smiješ slati Vary: Origin (nije kritično, ali čisto)
-  if (ALLOW_ORIGIN === "*") {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-  } else {
-    res.setHeader("Access-Control-Allow-Origin", ALLOW_ORIGIN);
-    res.setHeader("Vary", "Origin");
-  }
+  applyCors(req, res);
 
   // Preflight mora vratiti 200 prije auth provjere
   if (method === "OPTIONS") {
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
   const ADMIN_KEY = process.env.ADMIN_KEY;
   const headerKey = req.headers["x-admin-key"];
 
-  // Ako ADMIN_KEY nije postavljen na Vercelu -> fail hard (da ne misliš da radi)
+  // Ako ADMIN_KEY nije postavljen na Vercelu -> fail hard (da ne misli da radi)
   if (!ADMIN_KEY) {
     return res.status(500).json({ success: false, error: "ADMIN_KEY is missing on server" });
   }
@@ -108,14 +108,12 @@ export default async function handler(req, res) {
       });
     }
 
-
     return res.status(405).json({
-  success: false,
-  error: "Method Not Allowed",
-  seenMethod: req.method,
-  url: req.url,
-});
-
+      success: false,
+      error: "Method Not Allowed",
+      seenMethod: req.method,
+      url: req.url,
+    });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ success: false, error: "Server error" });
