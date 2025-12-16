@@ -33,8 +33,8 @@ const ProjectCard = ({
 
       <figure className="img-box aspect-square rounded-lg mb-4">
         <picture>
-          <source srcSet={encodeURI(avifSrc)} type="image/avif" />
-          <source srcSet={encodeURI(webpSrc)} type="image/webp" />
+          <source srcSet={`${encodeURI(avifSrc)} 1x`} type="image/avif" />
+          <source srcSet={`${encodeURI(webpSrc)} 1x`} type="image/webp" />
           <img
             src={encodeURI(imgSrc)}
             alt={title}

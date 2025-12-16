@@ -16,8 +16,8 @@ const ReviewCard = ({ cert }) => {
 
       <figure className="img-box rounded-xl overflow-hidden mb-4 bg-gradient-to-br from-zinc-900 via-slate-800 to-zinc-900 h-48 flex items-center justify-center ring-1 ring-white/5">
         <picture className="h-full w-full">
-          <source srcSet={avifSrc} type="image/avif" />
-          <source srcSet={webpSrc} type="image/webp" />
+          <source srcSet={`${avifSrc} 1x`} type="image/avif" />
+          <source srcSet={`${webpSrc} 1x`} type="image/webp" />
           <img
             src={baseSrc}
             alt={cert.title}
