@@ -49,6 +49,16 @@ const AdminPanel = () => {
     }
   };
 
+  const safeParse = async (res) => {
+    const text = await res.text();
+    if (!text) return {};
+    try {
+      return JSON.parse(text);
+    } catch {
+      return {};
+    }
+  };
+
   const removeSubmission = async (id) => {
     if (!hasKey) return;
     try {
@@ -59,7 +69,7 @@ const AdminPanel = () => {
           'x-admin-key': adminKey.trim(),
         },
       });
-      const data = await res.json();
+      const data = await safeParse(res);
       if (!res.ok || !data.success) throw new Error(data.error || 'Delete failed');
       setSubmissions((prev) => prev.filter((item) => item.id !== id));
       if (editingId === id) {
@@ -96,7 +106,7 @@ const AdminPanel = () => {
         },
         body: JSON.stringify(editDraft),
       });
-      const data = await res.json();
+      const data = await safeParse(res);
       if (!res.ok || !data.success) throw new Error(data.error || 'Update failed');
       setSubmissions((prev) =>
         prev.map((item) => (item.id === editingId ? data.entry : item))
