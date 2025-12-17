@@ -7,9 +7,8 @@
       "permanent": true
     }
   ],
-  "routes": [
-    { "src": "/api/submissions/([^/]+)", "dest": "/api/submissions/id.js?id=$1" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/api/submissions/:id", "destination": "/api/submissions/id.js?id=:id" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
