@@ -18,7 +18,6 @@ const ADMIN_KEY = process.env.ADMIN_KEY || 'changeme';
 const MONGO_URI = process.env.MONGO_URI;
 const MONGO_DB = process.env.MONGO_DB || 'portfolioDB';
 const COLLECTION = 'submissions';
-const CANONICAL_HOST = (process.env.CANONICAL_HOST || '').toLowerCase();
 
 if (!MONGO_URI) {
   console.warn('MONGO_URI is not set. Please configure it in .env');
@@ -80,10 +79,6 @@ app.use((req, res, next) => {
 
   if (!isLocal && proto === 'http' && originalHost) {
     return res.redirect(301, `https://${originalHost}${req.originalUrl}`);
-  }
-
-  if (!isLocal && CANONICAL_HOST && hostname && hostname !== CANONICAL_HOST) {
-    return res.redirect(301, `https://${CANONICAL_HOST}${req.originalUrl}`);
   }
 
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
