@@ -12,10 +12,10 @@ const ReviewCard = ({ cert }) => {
   const baseSrc = encodeURI(cert.imgSrc);
 
   return (
-    <div className="bg-zinc-800 p-5 rounded-xl min-w-[320px] flex flex-col lg:min-w-[420px]">
+    <div className="bg-zinc-800 p-5 rounded-xl w-[320px] md:w-[360px] lg:w-[420px] h-[450px] md:h-[430px] lg:h-[420px] flex flex-col">
 
       <figure className="img-box rounded-xl overflow-hidden mb-4 bg-gradient-to-br from-zinc-900 via-slate-800 to-zinc-900 h-48 flex items-center justify-center ring-1 ring-white/5">
-        <picture className="h-full w-full">
+        <picture className="h-full w-full flex items-center justify-center">
           <source srcSet={`${avifSrc} 1x`} type="image/avif" />
           <source srcSet={`${webpSrc} 1x`} type="image/webp" />
           <img
@@ -26,7 +26,7 @@ const ReviewCard = ({ cert }) => {
             loading="lazy"
             decoding="async"
             sizes="(max-width: 640px) 100vw, (max-width: 1280px) 420px, 480px"
-            className="h-full w-auto object-contain"
+            className="h-full w-auto object-contain object-center mx-auto"
           />
         </picture>
       </figure>
@@ -36,7 +36,7 @@ const ReviewCard = ({ cert }) => {
         <h3 className="title-1 mt-1">{cert.title}</h3>
       </div>
 
-      <p className="text-zinc-300 text-sm mb-4">
+      <p className="text-zinc-300 text-sm mb-4 line-clamp-3">
         {cert.description}
       </p>
 

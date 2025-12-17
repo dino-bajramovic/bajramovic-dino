@@ -10,6 +10,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from '@gsap/react';
+import { useEffect, useRef } from 'react';
 
 
 /**
@@ -36,7 +37,7 @@ const certifications = [
     title: 'Google Developer Group & DevFest',
     issuer: 'Google',
     year: '2023 - 2025',
-    description: 'GDG attendee (2024, 2025) i DevFest 2023 participant - fokus na web, cloud, AI alatima i community best practices.',
+    description: 'GDG attendee (2024, 2025) i DevFest 2023 participant - fokus na web, cloud, AI alatima i community practices.',
     imgSrc: '/images/Google Dev Fest.jpg'
   },
   {
@@ -71,8 +72,12 @@ const certifications = [
 
 
 const Review = () => {
+  const scrollRef = useRef(null);
 
   useGSAP(() => {
+    const isDesktop = typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches;
+    if (!isDesktop) return;
+
     gsap.to('.scrub-slide', {
       scrollTrigger: {
         trigger: '.scrub-slide',
@@ -83,6 +88,21 @@ const Review = () => {
       x: '-1000'
     })
   });
+
+  useEffect(() => {
+    const isDesktop = typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches;
+    if (isDesktop) return;
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const target = container.querySelector('[data-cert-index="2"]'); // Zira card
+    if (!target) return;
+
+    const centerOffset = target.offsetLeft - (container.clientWidth / 2) + (target.clientWidth / 2);
+    requestAnimationFrame(() => {
+      container.scrollLeft = Math.max(0, centerOffset);
+    });
+  }, []);
 
   return (
     <section
@@ -95,13 +115,20 @@ const Review = () => {
           Certifications
         </h2>
 
-        <div className="scrub-slide flex items-stretch gap-3 w-fit">
-          {certifications.map((item, key) => (
-            <ReviewCard
-              key={key}
-              cert={item}
-            />
-          ))}
+        <div
+          className="overflow-x-auto pb-2 touch-pan-x snap-x snap-mandatory overscroll-x-contain scrollbar-hide lg:overflow-visible lg:snap-none lg:overscroll-x-auto lg:pb-0"
+          style={{ scrollPaddingLeft: '16px', scrollPaddingRight: '16px' }}
+          ref={scrollRef}
+        >
+          <div className="scrub-slide flex items-stretch gap-3 px-4 min-w-max lg:px-0">
+            {certifications.map((item, key) => (
+              <div key={key} className="snap-start" data-cert-index={key}>
+                <ReviewCard
+                  cert={item}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
       </div>
