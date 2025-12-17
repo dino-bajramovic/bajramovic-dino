@@ -1,4 +1,12 @@
 {
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.dinobajramovic.com" }],
+      "destination": "https://dinobajramovic.com/$1",
+      "permanent": true
+    }
+  ],
   "routes": [
     { "src": "/api/submissions/([^/]+)", "dest": "/api/submissions/id.js?id=$1" },
     { "handle": "filesystem" },
