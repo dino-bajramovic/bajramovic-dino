@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 
 const rawSiteUrl = import.meta.env.VITE_SITE_URL || 'https://dinobajramovic.com';
 const siteUrl = rawSiteUrl.replace(/\/$/, '');
-const pageTitle = 'Full-stack Web Developer | Dino Bajramovic Portfolio';
+const pageTitle = 'Full-stack web developer building scalable projects & modern websites | Dino Bajramovic';
 const description = 'Portfolio of Dino Bajramovic, a full-stack web developer delivering scalable React and Node.js projects, with featured work, tech stack, and clear contact paths.';
 const keywords = [
   'Dino Bajramovic',

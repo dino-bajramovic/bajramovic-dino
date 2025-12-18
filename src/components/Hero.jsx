@@ -44,7 +44,7 @@ const Hero = () => {
           </h1>
 
           <p className="text-zinc-300 text-lg mb-6 max-w-[40ch]">
-            I design, build, and ship performant React/Node.js work from concept to launch, with a clear path to contact and collaboration.
+            I design, build, and ship scalable projects and modern websites with performant React/Node.js from concept to launch, with a clear path to contact and collaboration.
           </p>
 
           <div className="flex items-center gap-3">
