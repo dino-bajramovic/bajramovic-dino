@@ -71,7 +71,7 @@ const certifications = [
 ];
 
 
-const Review = () => {
+const Certifications = () => {
   const scrollRef = useRef(null);
 
   useGSAP(() => {
@@ -106,7 +106,7 @@ const Review = () => {
 
   return (
     <section
-      id="reviews"
+      id="certifications"
       className="section overflow-hidden"
     >
       <div className="container">
@@ -141,4 +141,4 @@ const Review = () => {
   )
 }
 
-export default Review
+export default Certifications

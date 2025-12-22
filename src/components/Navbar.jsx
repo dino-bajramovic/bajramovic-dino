@@ -58,8 +58,8 @@ const Navbar = ({ navOpen, onOpenAdmin, onCloseNav }) => {
       className: 'nav-link'
     },
     {
-      label: 'Reviews',
-      link: '#reviews',
+      label: 'Certifications',
+      link: '#certifications',
       className: 'nav-link'
     },
     {
