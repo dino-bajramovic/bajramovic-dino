@@ -20,7 +20,7 @@ const keywords = [
   'modern websites'
 ].join(', ');
 const canonicalUrl = `${siteUrl}/`;
-const previewImage = `${siteUrl}/images/hero-banner.jpg`;
+const previewImage = `${siteUrl}/images/hero-banner.webp`;
 const searchConsoleVerification = import.meta.env.VITE_GSC_VERIFICATION || '';
 const GA_ID = import.meta.env.VITE_GA_ID || '';
 
@@ -135,4 +135,5 @@ const SEO = () => (
 );
 
 export default SEO;
+
 

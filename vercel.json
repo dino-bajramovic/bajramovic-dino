@@ -1,6 +1,5 @@
-{
+﻿{
   "rewrites": [
-    { "source": "/api/submissions/:id", "destination": "/api/submissions/id.js?id=:id" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/api/submissions/:id", "destination": "/api/submissions/id.js?id=:id" }
   ]
 }
