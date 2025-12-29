@@ -33,7 +33,7 @@ const structuredData = {
   jobTitle: 'Full-stack Web Developer',
   sameAs: [
     'https://github.com/dino-bajramovic',
-    'https://www.linkedin.com/in/dino-bajramovic/',
+    'https://www.linkedin.com/in/dino-bajramovi%C4%87/',
     'https://x.com/DinoBajramovicc',
     'https://www.instagram.com/dinobajramovic_13/'
   ],
@@ -56,7 +56,7 @@ const organizationStructuredData = {
   ],
   sameAs: [
     'https://github.com/dino-bajramovic',
-    'https://www.linkedin.com/in/dino-bajramovic/',
+    'https://www.linkedin.com/in/dino-bajramovi%C4%87/',
     'https://x.com/DinoBajramovicc',
     'https://www.instagram.com/dinobajramovic_13/'
   ]

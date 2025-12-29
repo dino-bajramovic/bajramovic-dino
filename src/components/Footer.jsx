@@ -40,7 +40,7 @@ const socials = [
   },
   {
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/dino-bajramovic/'
+    href: 'https://www.linkedin.com/in/dino-bajramovi%C4%87/'
   },
   {
     label: 'Twitter X',
