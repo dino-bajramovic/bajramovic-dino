@@ -197,12 +197,12 @@ const Certifications = () => {
       </div>
 
       <div
-        className="relative left-1/2 -ml-[50vw] w-screen overflow-x-auto px-4 pb-2 touch-auto snap-x snap-mandatory overscroll-x-contain scrollbar-hide sm:px-8"
+        className="w-full overflow-x-auto pb-2 touch-auto overscroll-x-contain scrollbar-hide"
         ref={scrollRef}
       >
-        <div className="flex items-stretch gap-3 min-w-max">
+        <div className="flex items-stretch gap-3 min-w-max px-4 sm:px-8">
           {certifications.map((item, key) => (
-            <div key={key} className="snap-start" data-cert-index={key}>
+            <div key={key} data-cert-index={key}>
               <ReviewCard
                 cert={item}
               />
