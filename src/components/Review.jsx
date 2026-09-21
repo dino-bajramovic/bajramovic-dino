@@ -159,7 +159,7 @@ const Certifications = () => {
   return (
     <section
       id="certifications"
-      className="section overflow-hidden"
+      className="section"
     >
       <div className="container">
 
@@ -194,21 +194,21 @@ const Certifications = () => {
           <span className="material-symbols-rounded text-base">swipe_right</span>
         </div>
 
-        <div
-          className="overflow-x-auto px-4 pb-2 touch-auto snap-x snap-mandatory overscroll-x-contain scrollbar-hide lg:px-0 lg:pb-4"
-          ref={scrollRef}
-        >
-          <div className="flex items-stretch gap-3 px-4 min-w-max lg:px-0">
-            {certifications.map((item, key) => (
-              <div key={key} className="snap-start" data-cert-index={key}>
-                <ReviewCard
-                  cert={item}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+      </div>
 
+      <div
+        className="relative left-1/2 -ml-[50vw] w-screen overflow-x-auto px-4 pb-2 touch-auto snap-x snap-mandatory overscroll-x-contain scrollbar-hide sm:px-8"
+        ref={scrollRef}
+      >
+        <div className="flex items-stretch gap-3 min-w-max">
+          {certifications.map((item, key) => (
+            <div key={key} className="snap-start" data-cert-index={key}>
+              <ReviewCard
+                cert={item}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
