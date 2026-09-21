@@ -7,16 +7,7 @@
 /**
  * Node modules
  */
-import gsap from 'gsap';
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from '@gsap/react';
 import { useEffect, useRef } from 'react';
-
-
-/**
- * Register gsap plugins
- */
-gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 
 /**
@@ -30,14 +21,14 @@ const certifications = [
     title: 'STEM Games Participant',
     issuer: 'STEM Games, Umag',
     year: '2024 - 2025',
-    description: 'Fakultetske igre sporta i programiranja (Umag 2024 i 2025) - timsko takmicenje i prakticni projekti.',
+    description: 'University sports and programming games (Umag 2024 and 2025) - team competition and hands-on projects.',
     imgSrc: '/images/Steleks - Dino Bajramovic.jpg'
   },
   {
     title: 'Google Developer Group & DevFest',
     issuer: 'Google',
     year: '2023 - 2025',
-    description: 'GDG attendee (2024, 2025) i DevFest 2023 participant - fokus na web, cloud, AI alatima i community practices.',
+    description: 'GDG attendee (2024, 2025) and DevFest 2023 participant - focused on web, cloud, AI tools, and community practices.',
     imgSrc: '/images/Google Dev Fest.jpg'
   },
   {
@@ -144,21 +135,6 @@ const certifications = [
 const Certifications = () => {
   const scrollRef = useRef(null);
 
-  useGSAP(() => {
-    const isDesktop = typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches;
-    if (!isDesktop) return;
-
-    gsap.to('.scrub-slide', {
-      scrollTrigger: {
-        trigger: '.scrub-slide',
-        start: '-200% 80%',
-        end: '400% 80%',
-        scrub: true
-      },
-      x: '-1000'
-    })
-  });
-
   useEffect(() => {
     const isDesktop = typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches;
     if (isDesktop) return;
@@ -174,6 +150,12 @@ const Certifications = () => {
     });
   }, []);
 
+  const scrollByCard = (direction) => {
+    const container = scrollRef.current;
+    if (!container) return;
+    container.scrollBy({ left: direction * (container.clientWidth * 0.8), behavior: 'smooth' });
+  };
+
   return (
     <section
       id="certifications"
@@ -181,21 +163,42 @@ const Certifications = () => {
     >
       <div className="container">
 
-        <h2 className="headline-2 mb-8 reveal-up">
-          Certifications
-        </h2>
+        <div className="flex items-center justify-between gap-4 mb-8">
+          <h2 className="headline-2 reveal-up">
+            Certifications
+          </h2>
 
-        <div className="flex items-center gap-2 text-sm text-zinc-400 mb-3 lg:hidden">
+          <div className="hidden md:flex items-center gap-2 reveal-up">
+            <button
+              type="button"
+              onClick={() => scrollByCard(-1)}
+              aria-label="Scroll certifications left"
+              className="w-10 h-10 flex items-center justify-center rounded-full ring-2 ring-inset ring-zinc-50/10 text-zinc-300 hover:bg-zinc-800 transition-colors"
+            >
+              <span className="material-symbols-rounded">chevron_left</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollByCard(1)}
+              aria-label="Scroll certifications right"
+              className="w-10 h-10 flex items-center justify-center rounded-full ring-2 ring-inset ring-zinc-50/10 text-zinc-300 hover:bg-zinc-800 transition-colors"
+            >
+              <span className="material-symbols-rounded">chevron_right</span>
+            </button>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 text-sm text-zinc-400 mb-3 md:hidden">
           <span className="material-symbols-rounded text-base">swipe_left</span>
           <span>Swipe to view more certifications</span>
           <span className="material-symbols-rounded text-base">swipe_right</span>
         </div>
 
         <div
-          className="overflow-x-auto px-4 pb-2 touch-auto snap-x snap-mandatory overscroll-x-contain scrollbar-hide lg:overflow-visible lg:snap-none lg:overscroll-x-auto lg:px-0 lg:pb-0"
+          className="overflow-x-auto px-4 pb-2 touch-auto snap-x snap-mandatory overscroll-x-contain scrollbar-hide lg:px-0 lg:pb-4"
           ref={scrollRef}
         >
-          <div className="scrub-slide flex items-stretch gap-3 px-4 min-w-max lg:px-0">
+          <div className="flex items-stretch gap-3 px-4 min-w-max lg:px-0">
             {certifications.map((item, key) => (
               <div key={key} className="snap-start" data-cert-index={key}>
                 <ReviewCard

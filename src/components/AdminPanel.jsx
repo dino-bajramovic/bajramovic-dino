@@ -21,7 +21,7 @@ const AdminPanel = () => {
   const fetchSubmissions = async (keyOverride) => {
     const key = (keyOverride || adminKey).trim();
     if (!key) {
-      setError('Unesi admin key za pristup.');
+      setError('Enter an admin key to continue.');
       setAuthenticated(false);
       setSubmissions([]);
       return;
@@ -153,7 +153,7 @@ const AdminPanel = () => {
                 type="password"
                 value={adminKey}
                 onChange={(e) => setAdminKey(e.target.value)}
-                placeholder="Unesi admin ključ"
+                placeholder="Enter admin key"
                 autoFocus
                 autoComplete="off"
                 className="text-field mt-1 w-full"
@@ -183,21 +183,21 @@ const AdminPanel = () => {
           )}
           {authenticated && !error && (
             <p className="text-xs text-zinc-500 mt-2">
-              Ulogovan si. Za osvježavanje upita klikni Refresh.
+              You&apos;re logged in. Click Refresh to reload submissions.
             </p>
           )}
         </div>
 
         {!authenticated && !error && (
           <div className="p-4 rounded-xl bg-zinc-800/40 border border-zinc-700/40">
-            <p className="text-zinc-300 font-medium">Prijavi se admin ključem da vidiš upite.</p>
-            <p className="text-sm text-zinc-500 mt-1">Unesi ključ i klikni Login.</p>
+            <p className="text-zinc-300 font-medium">Log in with your admin key to view submissions.</p>
+            <p className="text-sm text-zinc-500 mt-1">Enter the key and click Login.</p>
           </div>
         )}
 
         {authenticated && submissions.length === 0 && !error && (
           <div className="p-4 rounded-xl bg-zinc-800/40 border border-zinc-700/40">
-            <p className="text-zinc-300">Nema pristiglih upita.</p>
+            <p className="text-zinc-300">No submissions yet.</p>
           </div>
         )}
 

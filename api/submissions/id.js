@@ -42,16 +42,16 @@ export default async function handler(req, res) {
 
   applyCors(req, res);
 
-  // Preflight mora vratiti 200 prije auth provjere
+  // Preflight must return 200 before the auth check
   if (method === "OPTIONS") {
     return res.status(200).end();
   }
 
-  // Admin auth (samo za PUT/DELETE)
+  // Admin auth (PUT/DELETE only)
   const ADMIN_KEY = process.env.ADMIN_KEY;
   const headerKey = req.headers["x-admin-key"];
 
-  // Ako ADMIN_KEY nije postavljen na Vercelu -> fail hard (da ne misli da radi)
+  // Fail hard if ADMIN_KEY isn't set on Vercel (so it doesn't silently appear to work)
   if (!ADMIN_KEY) {
     return res.status(500).json({ success: false, error: "ADMIN_KEY is missing on server" });
   }

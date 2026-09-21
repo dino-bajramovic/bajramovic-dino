@@ -14,7 +14,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const skillCategories = [
   {
-    category: 'Jezici',
+    category: 'Languages',
     items: [
       { imgSrc: '/images/tech/javascript.svg', label: 'JavaScript', desc: 'Core scripting' },
       { imgSrc: '/images/tech/typescript.svg', label: 'TypeScript', desc: 'Typed JavaScript' },
@@ -68,7 +68,7 @@ const skillCategories = [
     ],
   },
   {
-    category: 'Ostalo',
+    category: 'Other',
     items: [
       { imgSrc: '/images/tech/postgresql.svg', label: 'PostgreSQL', desc: 'Relational database' },
       { imgSrc: '/images/tech/neon.svg', label: 'Neon', desc: 'Serverless Postgres' },

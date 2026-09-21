@@ -22,7 +22,7 @@ const works = [
   {
     imgSrc: '/images/project-2.jpg',
     title: 'Real estate project',
-    tags: ['Web-tehnologije', 'CRUD', 'Responsive'],
+    tags: ['Web technologies', 'CRUD', 'Responsive'],
     projectLink: 'https://github.com/dino-bajramovic/nekretnine-projekat-web-tehnologije'
   },
   {
