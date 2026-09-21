@@ -20,6 +20,8 @@ const skillCategories = [
       { imgSrc: '/images/tech/typescript.svg', label: 'TypeScript', desc: 'Typed JavaScript' },
       { imgSrc: '/images/tech/python.svg', label: 'Python', desc: 'Backend & scripting' },
       { imgSrc: '/images/tech/java.svg', label: 'Java', desc: 'Backend OOP' },
+      { imgSrc: '/images/tech/c.svg', label: 'C', desc: 'Systems programming' },
+      { imgSrc: '/images/tech/cplusplus.svg', label: 'C++', desc: 'Systems & OOP' },
     ],
   },
   {
