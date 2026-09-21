@@ -67,6 +67,76 @@ const certifications = [
     year: '2024',
     description: 'Data literacy, analytics workflows, and practical visualization skills.',
     imgSrc: '/images/HP Life - Dino Bajramovic.jpg'
+  },
+  {
+    title: 'Claude Code in Action',
+    issuer: 'Anthropic',
+    year: '2026',
+    description: 'Hands-on agentic coding with Claude Code - multi-file edits, tool use, and real developer workflows.',
+    imgSrc: '/images/certificates/claude-code-in-action.svg'
+  },
+  {
+    title: 'Claude with the Anthropic API',
+    issuer: 'Anthropic',
+    year: '2026',
+    description: 'Building with the Anthropic API - prompting, tool use, and integrating Claude into applications.',
+    imgSrc: '/images/certificates/claude-anthropic-api.svg'
+  },
+  {
+    title: 'Introduction to Model Context Protocol',
+    issuer: 'Anthropic',
+    year: '2026',
+    description: 'MCP fundamentals - connecting LLMs to tools, data, and external context through a standard protocol.',
+    imgSrc: '/images/certificates/intro-model-context-protocol.svg'
+  },
+  {
+    title: 'Introduction to agent skills',
+    issuer: 'Anthropic',
+    year: '2026',
+    description: 'Designing and equipping agents with reusable skills for autonomous, multi-step task execution.',
+    imgSrc: '/images/certificates/intro-agent-skills.svg'
+  },
+  {
+    title: 'Advanced Anti-Phishing',
+    issuer: 'Cybersecurity Awareness Training',
+    year: '2026',
+    description: 'Advanced techniques for recognizing and defending against sophisticated phishing attacks.',
+    imgSrc: '/images/certificates/advanced-anti-phishing.svg'
+  },
+  {
+    title: 'Spot the Red Flag',
+    issuer: 'Cybersecurity Awareness Training',
+    year: '2026',
+    description: 'Identifying warning signs of social engineering and suspicious digital communication.',
+    imgSrc: '/images/certificates/spot-the-red-flag.svg'
+  },
+  {
+    title: 'Phishing and Email Flooding',
+    issuer: 'Cybersecurity Awareness Training',
+    year: '2026',
+    description: 'Recognizing email-based attacks, including flooding tactics used to mask malicious activity.',
+    imgSrc: '/images/certificates/phishing-email-flooding.svg'
+  },
+  {
+    title: 'Using QR Codes Safely',
+    issuer: 'Cybersecurity Awareness Training',
+    year: '2026',
+    description: 'Best practices for safely scanning and verifying QR codes to avoid malicious redirects.',
+    imgSrc: '/images/certificates/using-qr-codes-safely.svg'
+  },
+  {
+    title: 'A Guide To Dealing With Password Breaches',
+    issuer: 'Cybersecurity Awareness Training',
+    year: '2026',
+    description: 'Responding to credential breaches - password hygiene, rotation, and account recovery steps.',
+    imgSrc: '/images/certificates/password-breaches-guide.svg'
+  },
+  {
+    title: 'The Art of Phishing',
+    issuer: 'Cybersecurity Awareness Training',
+    year: '2026',
+    description: 'Core principles of phishing awareness and how attackers craft convincing deceptive messages.',
+    imgSrc: '/images/certificates/the-art-of-phishing.svg'
   }
 ];
 

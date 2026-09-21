@@ -7,6 +7,7 @@
 import PropTypes from 'prop-types';
 
 const ReviewCard = ({ cert }) => {
+  const isRaster = /\.(png|jpg)$/i.test(cert.imgSrc);
   const avifSrc = encodeURI(cert.imgSrc.replace(/\.(png|jpg)$/i, '.avif'));
   const webpSrc = encodeURI(cert.imgSrc.replace(/\.(png|jpg)$/i, '.webp'));
   const baseSrc = encodeURI(cert.imgSrc);
@@ -16,8 +17,8 @@ const ReviewCard = ({ cert }) => {
 
       <figure className="img-box rounded-xl overflow-hidden mb-4 bg-gradient-to-br from-zinc-900 via-slate-800 to-zinc-900 h-48 flex items-center justify-center ring-1 ring-white/5">
         <picture className="h-full w-full flex items-center justify-center">
-          <source srcSet={`${avifSrc} 1x`} type="image/avif" />
-          <source srcSet={`${webpSrc} 1x`} type="image/webp" />
+          {isRaster && <source srcSet={`${avifSrc} 1x`} type="image/avif" />}
+          {isRaster && <source srcSet={`${webpSrc} 1x`} type="image/webp" />}
           <img
             src={baseSrc}
             alt={cert.title}

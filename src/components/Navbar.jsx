@@ -11,7 +11,7 @@ import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 
 
-const Navbar = ({ navOpen, onOpenAdmin, onCloseNav }) => {
+const Navbar = ({ navOpen, onCloseNav }) => {
   const lastActiveLink = useRef();
   const activeBox = useRef();
 
@@ -67,15 +67,6 @@ const Navbar = ({ navOpen, onOpenAdmin, onCloseNav }) => {
       link: '#contact',
       className: 'nav-link md:hidden'
     },
-    {
-      label: 'Admin Login',
-      type: 'button',
-      action: () => {
-        onOpenAdmin?.();
-        onCloseNav?.();
-      },
-      className: 'nav-link md:hidden'
-    },
   ];
 
   return (
@@ -124,7 +115,6 @@ const Navbar = ({ navOpen, onOpenAdmin, onCloseNav }) => {
 
 Navbar.propTypes = {
   navOpen: PropTypes.bool.isRequired,
-  onOpenAdmin: PropTypes.func,
   onCloseNav: PropTypes.func
 }
 

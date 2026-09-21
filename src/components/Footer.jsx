@@ -5,6 +5,12 @@
 
 
 /**
+ * Node modules
+ */
+import PropTypes from "prop-types";
+
+
+/**
  * Components
  */
 import { ButtonPrimary } from "./Button";
@@ -53,7 +59,7 @@ const socials = [
 ];
 
 
-const Footer = () => {
+const Footer = ({ onOpenAdmin }) => {
   return (
     <footer className="section">
       <div className="container">
@@ -130,14 +136,29 @@ const Footer = () => {
             />
           </a>
 
-          <p className="text-zinc-500 text-sm reveal-up">
-            &copy; 2025 <span className="text-zinc-200">dino-bajramovic</span>
-          </p>
+          <div className="flex items-center gap-3 reveal-up">
+            <p className="text-zinc-500 text-sm">
+              &copy; 2025 <span className="text-zinc-200">dino-bajramovic</span>
+            </p>
+            <button
+              type="button"
+              onClick={onOpenAdmin}
+              aria-label="Admin access"
+              title="Admin access"
+              className="text-zinc-700 hover:text-zinc-400 transition-colors p-1 -m-1"
+            >
+              <span className="material-symbols-rounded text-base leading-none">lock</span>
+            </button>
+          </div>
         </div>
 
       </div>
     </footer>
   )
+}
+
+Footer.propTypes = {
+  onOpenAdmin: PropTypes.func
 }
 
 export default Footer

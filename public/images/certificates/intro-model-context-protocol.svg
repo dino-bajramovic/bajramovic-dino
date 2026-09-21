@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1237 950" width="1237" height="950">
+  <rect width="1237" height="950" fill="#b7ccc0"/>
+  <rect x="36" y="36" width="1165" height="878" fill="none" stroke="#1c1c1c" stroke-opacity="0.08" stroke-width="1"/>
+
+  <!-- badge pill -->
+  <g transform="translate(280, 150)">
+    <rect x="0" y="0" width="676" height="80" rx="40" fill="none" stroke="#1c1c1c" stroke-width="2"/>
+    <circle cx="55" cy="40" r="24" fill="#ffffff"/>
+    <path d="M43 40 L52 49 L69 30" stroke="#1c1c1c" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="100" y="49" font-family="'Poppins','Segoe UI',sans-serif" font-weight="700" font-size="27" letter-spacing="2" fill="#1c1c1c">CERTIFICATE of COMPLETION</text>
+  </g>
+
+  <text x="50%" y="400" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="58" fill="#1c1c1c">Dino Bajramovic</text>
+  <text x="50%" y="450" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#1c1c1c" fill-opacity="0.75">has completed</text>
+
+  <text x="50%" y="520" text-anchor="middle" font-family="'Poppins','Segoe UI',sans-serif" font-weight="700" font-size="54" fill="#1c1c1c">Introduction to Model</text>
+<text x="50%" y="586" text-anchor="middle" font-family="'Poppins','Segoe UI',sans-serif" font-weight="700" font-size="54" fill="#1c1c1c">Context Protocol</text>
+
+  <text x="50%" y="836" text-anchor="middle" font-family="'Poppins','Segoe UI',sans-serif" font-weight="800" font-size="30" letter-spacing="1" fill="#1c1c1c">ANTHROP\C</text>
+</svg>

@@ -16,7 +16,7 @@ import { useState } from "react";
 import Navbar from "./Navbar";
 
 
-const Header = ({ onOpenAdmin }) => {
+const Header = () => {
   const [navOpen, setNavOpen] = useState(false);
 
   return (
@@ -51,7 +51,6 @@ const Header = ({ onOpenAdmin }) => {
 
           <Navbar
             navOpen={navOpen}
-            onOpenAdmin={onOpenAdmin}
             onCloseNav={() => setNavOpen(false)}
           />
         </div>
@@ -63,13 +62,6 @@ const Header = ({ onOpenAdmin }) => {
           >
             Contact Me
           </a>
-          <button
-            type="button"
-            onClick={onOpenAdmin}
-            className="btn btn-ghost"
-          >
-            Admin Login
-          </button>
         </div>
 
       </div>

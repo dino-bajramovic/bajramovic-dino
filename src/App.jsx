@@ -11,7 +11,7 @@ import { ReactLenis } from 'lenis/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from '@gsap/react';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 /**
@@ -38,6 +38,17 @@ import SEO from "./components/SEO";
 const App = () => {
   const [adminOpen, setAdminOpen] = useState(false);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.altKey && e.key.toLowerCase() === 'a') {
+        e.preventDefault();
+        setAdminOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   useGSAP(() => {
     const elements = gsap.utils.toArray('.reveal-up');
 
@@ -60,7 +71,7 @@ const App = () => {
   return (
     <ReactLenis root>
       <SEO />
-      <Header onOpenAdmin={() => setAdminOpen(true)} />
+      <Header />
       <main>
         <Hero />
         <About />
@@ -92,7 +103,7 @@ const App = () => {
           </div>
         </div>
       )}
-      <Footer />
+      <Footer onOpenAdmin={() => setAdminOpen(true)} />
     </ReactLenis>
   )
 
