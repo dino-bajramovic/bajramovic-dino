@@ -1,6 +1,6 @@
 # Dino Bajramovic — Portfolio
 
-Modern React + Vite portfolio with sections Hero, About, Skills, Experience, Work, Certifications, Contact, and Admin panel (for managing submissions). Tailwind utility classes, GSAP animations, and Lenis smooth scroll are used.
+Modern React + Vite portfolio with sections Hero, About, Skills, Experience, Work, Certifications, and Contact. Tailwind utility classes, GSAP animations, and Lenis smooth scroll are used. Contact submissions are emailed via Resend; there is no database.
 
 ## Local setup
 1. `npm install`
@@ -23,20 +23,19 @@ Modern React + Vite portfolio with sections Hero, About, Skills, Experience, Wor
 - For Render/Netlify/Vercel:
   - Build command: `npm run build`
   - Publish dir: `dist`
-  - Backend (if separate): deploy Express server (`npm run server`) and set admin key/DB vars.
+  - Backend (if separate): deploy the Express server (`npm run server`) and set `RESEND_API_KEY`.
 
 ### Vercel (FE + serverless API in the same repo)
-- Functions live under `api/` (contact, submissions list, submissions id, health).
+- One function lives under `api/`: `contact.js`, which emails the submission through Resend (`api/_email.js`).
 - Set env vars in Vercel Dashboard:
-  - `MONGO_URI`, `MONGO_DB=portfolioDB`, `ADMIN_KEY=<your_key>`
-  - `VITE_SITE_URL=https://your-domain` (and `CANONICAL_HOST=your-domain` if you want forced redirect)
-  - Optional: `VITE_GSC_VERIFICATION`, `VITE_API_URL` (can be empty).
-- `vercel.json` rewrites: `/api/*` goes to functions, everything else to `index.html` (SPA).
+  - `RESEND_API_KEY=<key from resend.com>`
+  - `VITE_SITE_URL=https://your-domain`
+  - Optional: `CONTACT_TO_EMAIL` (recipient), `CONTACT_FROM_EMAIL` (needs a domain verified in Resend), `VITE_GSC_VERIFICATION`, `VITE_API_URL` (can be empty).
 - Build command: `npm run build`; Output dir: `dist`.
 
-## Admin panel
-- Access via the lock icon in the footer, or the `Ctrl+Alt+A` shortcut. There is deliberately no visible "Admin Login" entry point.
-- Enter the admin key (`ADMIN_KEY`) and click Login/Refresh. Without the key, submissions are hidden. Press `Escape` or click outside the dialog to close it.
+## Contact form
+- Submissions are emailed, not stored. Reply-to is set to the sender, so replying from your inbox answers them directly.
+- Without `RESEND_API_KEY` the endpoint returns 500 and logs the reason; nothing else depends on it.
 
 ## SEO
 - React Helmet meta (title, description, keywords, canonical, OG/Twitter), JSON-LD (Person/Organization/WebSite), `robots.txt`, `sitemap.xml`, descriptive alts, canonical from `VITE_SITE_URL`. After deploy, run Lighthouse SEO and save the report.

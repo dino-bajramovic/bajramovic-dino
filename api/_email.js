@@ -1,9 +1,8 @@
 /**
  * Contact notifications via Resend.
  *
- * Kept independent of the database on purpose: a submission must still reach
- * the inbox when Mongo is unreachable, which is exactly how earlier inquiries
- * were lost.
+ * Email is the only delivery path for contact submissions - nothing is stored
+ * server side, so the inbox is the record.
  */
 
 const RESEND_ENDPOINT = 'https://api.resend.com/emails';

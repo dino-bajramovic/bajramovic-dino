@@ -4,18 +4,6 @@
  */
 
 
-/**
- * Node modules
- */
-import PropTypes from "prop-types";
-
-
-/**
- * Components
- */
-import { ButtonPrimary } from "./Button";
-
-
 const sitemap = [
   {
     label: 'Home',
@@ -63,7 +51,7 @@ const socials = [
 ];
 
 
-const Footer = ({ onOpenAdmin }) => {
+const Footer = () => {
   return (
     <footer className="section">
       <div className="container">
@@ -74,13 +62,6 @@ const Footer = ({ onOpenAdmin }) => {
             <h2 className="headline-1 mb-8 lg:max-w-[12ch] reveal-up">
               Let&apos;s work together today!
             </h2>
-
-            <ButtonPrimary
-              href="mailto:dinobajramovic01@gmail.com"
-              label="Start project"
-              icon="chevron_right"
-              classes="reveal-up"
-            />
           </div>
 
           <div className="grid grid-cols-2 gap-4 lg:pl-20">
@@ -140,29 +121,14 @@ const Footer = ({ onOpenAdmin }) => {
             />
           </a>
 
-          <div className="flex items-center gap-3 reveal-up">
-            <p className="text-zinc-500 text-sm">
-              &copy; {new Date().getFullYear()} <span className="text-zinc-200">dino-bajramovic</span>
-            </p>
-            <button
-              type="button"
-              onClick={onOpenAdmin}
-              aria-label="Admin access"
-              title="Admin access"
-              className="text-zinc-700 hover:text-zinc-400 transition-colors p-1 -m-1"
-            >
-              <span className="material-symbols-rounded text-base leading-none">lock</span>
-            </button>
-          </div>
+          <p className="text-zinc-500 text-sm reveal-up">
+            &copy; {new Date().getFullYear()} <span className="text-zinc-200">dino-bajramovic</span>
+          </p>
         </div>
 
       </div>
     </footer>
   )
-}
-
-Footer.propTypes = {
-  onOpenAdmin: PropTypes.func
 }
 
 export default Footer

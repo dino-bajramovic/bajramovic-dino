@@ -1,7 +1,5 @@
-import { getDb } from './_db.js';
 import { sendContactEmail } from './_email.js';
 
-const COLLECTION = 'submissions';
 const MAX_MESSAGE = 1000;
 const ALLOWED_ORIGINS = ['https://www.dinobajramovic.com', 'https://dinobajramovic.com'];
 
@@ -25,8 +23,8 @@ function applyCors(req, res) {
     res.setHeader('Vary', 'Origin');
   }
 
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-admin-key');
+  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
 export default async function handler(req, res) {
@@ -52,40 +50,21 @@ export default async function handler(req, res) {
       .json({ success: false, error: `Message is too long (max ${MAX_MESSAGE} characters).` });
   }
 
-  const doc = {
-    name: String(name).trim(),
-    email: String(email).trim(),
-    message: trimmedMessage,
-    createdAt: new Date().toISOString(),
-  };
-
-  // Notify first, and treat the database as a best-effort archive. Either one
-  // succeeding means the message reached us, so a Mongo outage no longer
-  // throws the submission away.
-  let emailed = false;
   try {
-    const result = await sendContactEmail(doc);
-    emailed = result.sent;
+    const { sent } = await sendContactEmail({
+      name: String(name).trim(),
+      email: String(email).trim(),
+      message: trimmedMessage,
+    });
+
+    if (!sent) {
+      console.error('Contact email skipped: RESEND_API_KEY is not set');
+      return res.status(500).json({ success: false, error: 'Server error' });
+    }
+
+    return res.status(201).json({ success: true });
   } catch (e) {
     console.error('Contact email failed:', e);
-  }
-
-  let entry = null;
-  try {
-    const db = await getDb();
-    const col = db.collection(COLLECTION);
-
-    const result = await col.insertOne(doc);
-    entry = { id: result.insertedId.toString(), ...doc };
-
-    await col.updateOne({ _id: result.insertedId }, { $set: { id: entry.id } });
-  } catch (e) {
-    console.error('Contact DB write failed:', e);
-  }
-
-  if (!emailed && !entry) {
     return res.status(500).json({ success: false, error: 'Server error' });
   }
-
-  return res.status(201).json({ success: true, entry });
 }

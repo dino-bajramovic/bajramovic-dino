@@ -8,8 +8,5 @@
       "destination": "https://dinobajramovic.com/$1",
       "permanent": true
     }
-  ],
-  "rewrites": [
-    { "source": "/api/submissions/:id", "destination": "/api/submissions/id.js?id=:id" }
   ]
 }

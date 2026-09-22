@@ -1,13 +1,14 @@
 /**
- * Express backend with MongoDB persistence for contact submissions.
+ * Express backend for local development: serves the built site and handles
+ * contact submissions. Submissions are emailed, not stored.
  */
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import { MongoClient, ObjectId } from 'mongodb';
-import { sendContactEmail } from './api/_email.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
+
+import { sendContactEmail } from './api/_email.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,56 +16,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const DEFAULT_PORT = Number(process.env.PORT) || 4000;
 const isProduction = process.env.NODE_ENV === 'production';
-const ADMIN_KEY = process.env.ADMIN_KEY || 'changeme';
-const MONGO_URI = process.env.MONGO_URI;
-const MONGO_DB = process.env.MONGO_DB || 'portfolioDB';
-const COLLECTION = 'submissions';
-
-if (!MONGO_URI) {
-  console.warn('MONGO_URI is not set. Please configure it in .env');
-}
-
-const client = new MongoClient(MONGO_URI);
-let collection;
-
-const connectDB = async () => {
-  if (collection) return collection;
-  await client.connect();
-  const db = client.db(MONGO_DB);
-  collection = db.collection(COLLECTION);
-  await collection.createIndex({ createdAt: -1 });
-  // Backfill missing id field for legacy documents
-  await collection.updateMany(
-    { id: { $exists: false } },
-    [
-      {
-        $set: {
-          id: { $toString: '$_id' }
-        }
-      }
-    ]
-  );
-  return collection;
-};
-
-const mapSubmission = (doc) => ({
-  id: doc._id?.toString() || doc.id,
-  name: doc.name,
-  email: doc.email,
-  message: doc.message,
-  createdAt: doc.createdAt,
-  updatedAt: doc.updatedAt,
-});
-
-const buildIdFilter = (id) => {
-  const filters = [];
-  if (ObjectId.isValid(id)) {
-    filters.push({ _id: new ObjectId(id) });
-  }
-  filters.push({ id });
-  filters.push({ _id: id }); // in case _id was stored as string for legacy docs
-  return filters.length === 1 ? filters[0] : { $or: filters };
-};
+const MAX_MESSAGE = 1000;
 
 app.use(cors());
 app.use(express.json());
@@ -88,16 +40,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/api/health', async (_req, res) => {
-  try {
-    await connectDB();
-    res.json({ ok: true, uptime: process.uptime() });
-  } catch (err) {
-    console.error('Health check failed:', err);
-    res.status(500).json({ ok: false, error: 'DB connection failed' });
-  }
-});
-
 app.post('/api/contact', async (req, res) => {
   const { name, email, message } = req.body || {};
 
@@ -106,108 +48,28 @@ app.post('/api/contact', async (req, res) => {
   }
 
   const trimmedMessage = String(message).trim();
-  if (trimmedMessage.length > 1000) {
-    return res.status(400).json({ success: false, error: 'Message is too long (max 1000 characters).' });
+  if (trimmedMessage.length > MAX_MESSAGE) {
+    return res
+      .status(400)
+      .json({ success: false, error: `Message is too long (max ${MAX_MESSAGE} characters).` });
   }
 
-  const doc = {
-    name: String(name).trim(),
-    email: String(email).trim(),
-    message: trimmedMessage,
-    createdAt: new Date().toISOString(),
-  };
-
-  // Notify first; the database is a best-effort archive so an outage there
-  // cannot discard the submission.
-  let emailed = false;
   try {
-    const sendResult = await sendContactEmail(doc);
-    emailed = sendResult.sent;
+    const { sent, reason } = await sendContactEmail({
+      name: String(name).trim(),
+      email: String(email).trim(),
+      message: trimmedMessage,
+    });
+
+    if (!sent) {
+      console.error('Contact email skipped:', reason);
+      return res.status(500).json({ success: false, error: 'Server error' });
+    }
+
+    return res.status(201).json({ success: true });
   } catch (err) {
     console.error('Contact email failed:', err);
-  }
-
-  let entry = null;
-  try {
-    const col = await connectDB();
-    const result = await col.insertOne({ id: undefined, ...doc });
-    entry = mapSubmission({ _id: result.insertedId, ...doc, id: result.insertedId.toString() });
-    // Backfill id for future compatibility
-    await col.updateOne({ _id: result.insertedId }, { $set: { id: entry.id } });
-  } catch (err) {
-    console.error('Error inserting submission:', err);
-  }
-
-  if (!emailed && !entry) {
     return res.status(500).json({ success: false, error: 'Server error' });
-  }
-
-  return res.status(201).json({ success: true, entry });
-});
-
-const requireAdminKey = (req, res, next) => {
-  const headerKey = req.headers['x-admin-key'];
-  if (!headerKey || headerKey !== ADMIN_KEY) {
-    return res.status(401).json({ success: false, error: 'Unauthorized' });
-  }
-  next();
-};
-
-app.get('/api/submissions', requireAdminKey, async (_req, res) => {
-  try {
-    const col = await connectDB();
-    const docs = await col.find({}).sort({ createdAt: -1 }).toArray();
-    res.json({ success: true, submissions: docs.map(mapSubmission) });
-  } catch (err) {
-    console.error('Error fetching submissions:', err);
-    res.status(500).json({ success: false, error: 'Server error' });
-  }
-});
-
-app.delete('/api/submissions/:id', requireAdminKey, async (req, res) => {
-  try {
-    const col = await connectDB();
-    const result = await col.deleteOne(buildIdFilter(req.params.id));
-    res.json({ success: true, removed: result.deletedCount });
-  } catch (err) {
-    console.error('Error deleting submission:', err);
-    res.status(500).json({ success: false, error: 'Server error' });
-  }
-});
-
-app.put('/api/submissions/:id', requireAdminKey, async (req, res) => {
-  const { name, email, message } = req.body || {};
-
-  if (message && String(message).trim().length > 1000) {
-    return res.status(400).json({ success: false, error: 'Message is too long (max 1000 characters).' });
-  }
-
-  try {
-    const col = await connectDB();
-    const filter = buildIdFilter(req.params.id);
-    const existing = await col.findOne(filter);
-
-    if (!existing) {
-      return res.status(404).json({ success: false, error: 'Submission not found.' });
-    }
-
-    const update = {};
-    if (name !== undefined) update.name = String(name).trim();
-    if (email !== undefined) update.email = String(email).trim();
-    if (message !== undefined) update.message = String(message).trim();
-    update.updatedAt = new Date().toISOString();
-
-    const result = await col.updateOne(filter, { $set: update });
-
-    if (!result.matchedCount) {
-      return res.status(404).json({ success: false, error: 'Submission not found.' });
-    }
-
-    const refreshed = await col.findOne(filter);
-    res.json({ success: true, entry: mapSubmission(refreshed) });
-  } catch (err) {
-    console.error('Error updating submission:', err);
-    res.status(500).json({ success: false, error: 'Server error' });
   }
 });
 
