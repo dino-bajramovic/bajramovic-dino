@@ -5,6 +5,7 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import { MongoClient, ObjectId } from 'mongodb';
+import { sendContactEmail } from './api/_email.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
@@ -109,24 +110,39 @@ app.post('/api/contact', async (req, res) => {
     return res.status(400).json({ success: false, error: 'Message is too long (max 1000 characters).' });
   }
 
+  const doc = {
+    name: String(name).trim(),
+    email: String(email).trim(),
+    message: trimmedMessage,
+    createdAt: new Date().toISOString(),
+  };
+
+  // Notify first; the database is a best-effort archive so an outage there
+  // cannot discard the submission.
+  let emailed = false;
+  try {
+    const sendResult = await sendContactEmail(doc);
+    emailed = sendResult.sent;
+  } catch (err) {
+    console.error('Contact email failed:', err);
+  }
+
+  let entry = null;
   try {
     const col = await connectDB();
-    const doc = {
-      id: undefined,
-      name: String(name).trim(),
-      email: String(email).trim(),
-      message: trimmedMessage,
-      createdAt: new Date().toISOString(),
-    };
-    const result = await col.insertOne(doc);
-    const entry = mapSubmission({ _id: result.insertedId, ...doc, id: result.insertedId.toString() });
+    const result = await col.insertOne({ id: undefined, ...doc });
+    entry = mapSubmission({ _id: result.insertedId, ...doc, id: result.insertedId.toString() });
     // Backfill id for future compatibility
     await col.updateOne({ _id: result.insertedId }, { $set: { id: entry.id } });
-    return res.status(201).json({ success: true, entry });
   } catch (err) {
     console.error('Error inserting submission:', err);
+  }
+
+  if (!emailed && !entry) {
     return res.status(500).json({ success: false, error: 'Server error' });
   }
+
+  return res.status(201).json({ success: true, entry });
 });
 
 const requireAdminKey = (req, res, next) => {

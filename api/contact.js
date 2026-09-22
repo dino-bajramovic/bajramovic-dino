@@ -1,4 +1,5 @@
 import { getDb } from './_db.js';
+import { sendContactEmail } from './_email.js';
 
 const COLLECTION = 'submissions';
 const MAX_MESSAGE = 1000;
@@ -51,25 +52,40 @@ export default async function handler(req, res) {
       .json({ success: false, error: `Message is too long (max ${MAX_MESSAGE} characters).` });
   }
 
+  const doc = {
+    name: String(name).trim(),
+    email: String(email).trim(),
+    message: trimmedMessage,
+    createdAt: new Date().toISOString(),
+  };
+
+  // Notify first, and treat the database as a best-effort archive. Either one
+  // succeeding means the message reached us, so a Mongo outage no longer
+  // throws the submission away.
+  let emailed = false;
+  try {
+    const result = await sendContactEmail(doc);
+    emailed = result.sent;
+  } catch (e) {
+    console.error('Contact email failed:', e);
+  }
+
+  let entry = null;
   try {
     const db = await getDb();
     const col = db.collection(COLLECTION);
 
-    const doc = {
-      name: String(name).trim(),
-      email: String(email).trim(),
-      message: trimmedMessage,
-      createdAt: new Date().toISOString(),
-    };
-
     const result = await col.insertOne(doc);
-    const entry = { id: result.insertedId.toString(), ...doc };
+    entry = { id: result.insertedId.toString(), ...doc };
 
     await col.updateOne({ _id: result.insertedId }, { $set: { id: entry.id } });
-
-    return res.status(201).json({ success: true, entry });
   } catch (e) {
-    console.error(e);
+    console.error('Contact DB write failed:', e);
+  }
+
+  if (!emailed && !entry) {
     return res.status(500).json({ success: false, error: 'Server error' });
   }
+
+  return res.status(201).json({ success: true, entry });
 }
