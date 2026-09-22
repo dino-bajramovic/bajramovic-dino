@@ -8,7 +8,8 @@
  * Node modules
  */
 import PropTypes from 'prop-types';
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 
 /**
@@ -30,7 +31,7 @@ const focusRing =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900';
 
 
-const ExperienceCard = ({ project, onToggle, classes, style }) => {
+const ExperienceCard = ({ project, classes, style }) => {
   const [expanded, setExpanded] = useState(false);
   const listId = `${useId()}-highlights`;
 
@@ -38,9 +39,14 @@ const ExperienceCard = ({ project, onToggle, classes, style }) => {
   const hasMore = moreHighlights.length > 0;
   const links = project.links || [];
 
+  // Re-measure scroll-driven reveals once the extra highlights are laid out.
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => cancelAnimationFrame(frame);
+  }, [expanded]);
+
   const handleToggle = () => {
     setExpanded((prev) => !prev);
-    onToggle?.();
   };
 
   return (
@@ -214,7 +220,6 @@ ExperienceCard.propTypes = {
       })
     )
   }).isRequired,
-  onToggle: PropTypes.func,
   classes: PropTypes.string,
   style: PropTypes.object
 }

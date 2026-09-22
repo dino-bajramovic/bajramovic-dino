@@ -8,7 +8,8 @@
  * Node modules
  */
 import PropTypes from 'prop-types';
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 
 /**
@@ -37,7 +38,7 @@ const RoleHeader = ({ role, expandable, expanded }) => (
     <p className="text-sm text-sky-400 font-medium mt-1">{role.period}</p>
 
     {role.summary && (
-      <p className="text-sm text-zinc-300 leading-relaxed mt-2 max-w-[70ch]">
+      <p className="text-sm text-zinc-300 leading-relaxed mt-2">
         {role.summary}
       </p>
     )}
@@ -73,14 +74,22 @@ RoleHeader.propTypes = {
 };
 
 
-const ExperienceRole = ({ role, onToggle }) => {
+const ExperienceRole = ({ role }) => {
   const [expanded, setExpanded] = useState(false);
   const panelId = `${useId()}-projects`;
   const expandable = (role.projects || []).length > 0;
 
+  // Expanding/collapsing changes page height, which invalidates every
+  // scroll-driven reveal below this point. Refresh after the browser has
+  // laid the new content out - refreshing inside the click handler measures
+  // the old layout and leaves the sections below stuck at opacity 0.
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => cancelAnimationFrame(frame);
+  }, [expanded]);
+
   const handleToggle = () => {
     setExpanded((prev) => !prev);
-    onToggle?.();
   };
 
   return (
@@ -113,7 +122,6 @@ const ExperienceRole = ({ role, onToggle }) => {
                 <ExperienceCard
                   key={project.id}
                   project={project}
-                  onToggle={onToggle}
                 />
               ))}
             </div>
@@ -134,8 +142,7 @@ ExperienceRole.propTypes = {
     summary: PropTypes.string,
     stack: PropTypes.arrayOf(PropTypes.string),
     projects: PropTypes.array
-  }).isRequired,
-  onToggle: PropTypes.func
+  }).isRequired
 }
 
 export default ExperienceRole

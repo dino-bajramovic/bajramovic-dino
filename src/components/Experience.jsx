@@ -5,12 +5,6 @@
 
 
 /**
- * Node modules
- */
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-
-/**
  * Components
  */
 import ExperienceRole from './ExperienceRole';
@@ -23,11 +17,6 @@ import { experienceIntro, experienceRoles } from '../data/experience';
 
 
 const Experience = () => {
-  // Roles and cards expand in place, so ScrollTrigger needs fresh measurements.
-  const handleToggle = () => {
-    ScrollTrigger.refresh();
-  };
-
   return (
     <section
       id="experience"
@@ -48,7 +37,6 @@ const Experience = () => {
             <ExperienceRole
               key={role.id}
               role={role}
-              onToggle={handleToggle}
             />
           ))}
         </div>
