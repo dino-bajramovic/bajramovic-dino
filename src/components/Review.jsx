@@ -7,7 +7,7 @@
 /**
  * Node modules
  */
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 
 /**
@@ -134,21 +134,6 @@ const certifications = [
 
 const Certifications = () => {
   const scrollRef = useRef(null);
-
-  useEffect(() => {
-    const isDesktop = typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches;
-    if (isDesktop) return;
-    const container = scrollRef.current;
-    if (!container) return;
-
-    const target = container.querySelector('[data-cert-index="2"]'); // Zira card
-    if (!target) return;
-
-    const centerOffset = target.offsetLeft - (container.clientWidth / 2) + (target.clientWidth / 2);
-    requestAnimationFrame(() => {
-      container.scrollLeft = Math.max(0, centerOffset);
-    });
-  }, []);
 
   const scrollByCard = (direction) => {
     const container = scrollRef.current;

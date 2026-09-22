@@ -74,7 +74,7 @@ const Hero = () => {
                 height={800}
                 alt="Hero illustration for Dino Bajramovic portfolio"
                 className="w-full"
-                fetchpriority="high"
+                fetchPriority="high"
                 decoding="async"
                 sizes="(max-width: 1024px) 90vw, 480px"
               />

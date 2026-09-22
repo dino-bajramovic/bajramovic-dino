@@ -1,7 +1,7 @@
 /**
  * Admin panel with login gate: enter admin key, then load/delete submissions.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 const API_BASE = import.meta.env.VITE_API_URL || '';
 const DEFAULT_ERROR = 'Unable to load submissions. Check admin key and server.';
@@ -128,17 +128,13 @@ const AdminPanel = () => {
     setAdminKey('');
   };
 
-  useEffect(() => {
-    // On mount keep admin key empty to avoid auto-login.
-  }, []);
-
   return (
     <section
       id="admin"
       className="py-6 md:py-8"
     >
       <div className="container space-y-4 overflow-x-hidden">
-        <div className="bg-zinc-850/60 border border-zinc-700/50 p-4 md:p-5 rounded-2xl shadow-lg shadow-black/30">
+        <div className="bg-zinc-800/60 border border-zinc-700/50 p-4 md:p-5 rounded-2xl shadow-lg shadow-black/30">
           <div className="flex items-center gap-2 mb-3 text-zinc-400">
             <span className="material-symbols-rounded text-lg leading-none">lock</span>
             <p className="text-sm">Restricted area - authorized access only</p>

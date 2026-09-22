@@ -22,6 +22,10 @@ const sitemap = [
     href: '#home'
   },
   {
+    label: 'Experience',
+    href: '#experience'
+  },
+  {
     label: 'About',
     href: '#about'
   },
@@ -138,7 +142,7 @@ const Footer = ({ onOpenAdmin }) => {
 
           <div className="flex items-center gap-3 reveal-up">
             <p className="text-zinc-500 text-sm">
-              &copy; 2025 <span className="text-zinc-200">dino-bajramovic</span>
+              &copy; {new Date().getFullYear()} <span className="text-zinc-200">dino-bajramovic</span>
             </p>
             <button
               type="button"

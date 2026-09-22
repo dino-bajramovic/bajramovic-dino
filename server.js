@@ -92,6 +92,7 @@ app.get('/api/health', async (_req, res) => {
     await connectDB();
     res.json({ ok: true, uptime: process.uptime() });
   } catch (err) {
+    console.error('Health check failed:', err);
     res.status(500).json({ ok: false, error: 'DB connection failed' });
   }
 });

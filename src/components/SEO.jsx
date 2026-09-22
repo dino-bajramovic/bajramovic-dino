@@ -75,7 +75,7 @@ const webSiteStructuredData = {
   }
 };
 
-const SEO = () => (
+const SeoHead = () => (
   <Helmet>
     <html lang="en" />
     <title>{pageTitle}</title>
@@ -84,8 +84,8 @@ const SEO = () => (
     <meta name="author" content="Dino Bajramovic" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" href={canonicalUrl} hreflang="en" />
-    <link rel="alternate" href={canonicalUrl} hreflang="x-default" />
+    <link rel="alternate" href={canonicalUrl} hrefLang="en" />
+    <link rel="alternate" href={canonicalUrl} hrefLang="x-default" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Dino Bajramovic Portfolio" />
@@ -134,6 +134,6 @@ const SEO = () => (
   </Helmet>
 );
 
-export default SEO;
+export default SeoHead;
 
 

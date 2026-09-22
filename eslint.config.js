@@ -35,4 +35,12 @@ export default [
       ],
     },
   },
+  {
+    // Server-side code (Express server, Vercel serverless functions, build
+    // scripts) runs in Node, not the browser.
+    files: ['server.js', 'api/**/*.js', 'scripts/**/*.{js,mjs}', '*.config.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 ]

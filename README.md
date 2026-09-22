@@ -1,6 +1,6 @@
 # Dino Bajramovic — Portfolio
 
-Modern React + Vite portfolio with sections Hero, About, Skills, Work, Certifications, Contact, and Admin panel (for managing submissions). Tailwind utility classes, GSAP animations, and Lenis smooth scroll are used.
+Modern React + Vite portfolio with sections Hero, About, Skills, Experience, Work, Certifications, Contact, and Admin panel (for managing submissions). Tailwind utility classes, GSAP animations, and Lenis smooth scroll are used.
 
 ## Local setup
 1. `npm install`
@@ -35,7 +35,8 @@ Modern React + Vite portfolio with sections Hero, About, Skills, Work, Certifica
 - Build command: `npm run build`; Output dir: `dist`.
 
 ## Admin panel
-- Access via header. Enter admin key and click Login/Refresh. Without the key, submissions are hidden.
+- Access via the lock icon in the footer, or the `Ctrl+Alt+A` shortcut. There is deliberately no visible "Admin Login" entry point.
+- Enter the admin key (`ADMIN_KEY`) and click Login/Refresh. Without the key, submissions are hidden. Press `Escape` or click outside the dialog to close it.
 
 ## SEO
 - React Helmet meta (title, description, keywords, canonical, OG/Twitter), JSON-LD (Person/Organization/WebSite), `robots.txt`, `sitemap.xml`, descriptive alts, canonical from `VITE_SITE_URL`. After deploy, run Lighthouse SEO and save the report.

@@ -43,14 +43,14 @@ const Contact = () => {
   const [submitting, setSubmitting] = useState(false);
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [company, setCompany] = useState('');
   const MESSAGE_LIMIT = 1000;
 
   const API_BASE = import.meta.env.VITE_API_URL || '';
-  const adminKey = import.meta.env.VITE_ADMIN_KEY || '';
 
   const validateName = (value) => {
     // Allow international letters plus space, apostrophe, dash. No digits or symbols.
-    const pattern = /^[\p{L}][\p{L}\p{M} '\-]{1,79}$/u;
+    const pattern = /^[\p{L}][\p{L}\p{M} '-]{1,79}$/u;
     return pattern.test(value.trim());
   };
 
@@ -66,6 +66,18 @@ const Contact = () => {
     setSubmitting(true);
     setNameError('');
     setEmailError('');
+
+    // Honeypot: real users never see this field, so a filled value means a bot.
+    // Report success without sending anything.
+    if (company.trim()) {
+      setStatus('Message sent!');
+      setStatusType('success');
+      setName('');
+      setEmail('');
+      setMessage('');
+      setSubmitting(false);
+      return;
+    }
 
     let hasError = false;
 
@@ -231,6 +243,9 @@ const Contact = () => {
             className="hidden"
             tabIndex="-1"
             autoComplete="off"
+            aria-hidden="true"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
           />
 
           <button
@@ -250,12 +265,6 @@ const Contact = () => {
               }
             >
               {status}
-            </p>
-          )}
-
-          {adminKey && (
-            <p className="text-xs text-zinc-500 mt-2">
-              Admin key detected. Access submissions in the Admin section below.
             </p>
           )}
 
