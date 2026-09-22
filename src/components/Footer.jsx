@@ -22,12 +22,12 @@ const sitemap = [
     href: '#home'
   },
   {
-    label: 'Experience',
-    href: '#experience'
-  },
-  {
     label: 'About',
     href: '#about'
+  },
+  {
+    label: 'Experience',
+    href: '#experience'
   },
   {
     label: 'Work',

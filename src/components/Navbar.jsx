@@ -48,13 +48,13 @@ const Navbar = ({ navOpen, onCloseNav }) => {
       ref: lastActiveLink
     },
     {
-      label: 'Experience',
-      link: '#experience',
+      label: 'About',
+      link: '#about',
       className: 'nav-link'
     },
     {
-      label: 'About',
-      link: '#about',
+      label: 'Experience',
+      link: '#experience',
       className: 'nav-link'
     },
     {
