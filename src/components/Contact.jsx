@@ -145,7 +145,7 @@ const Contact = () => {
             Reach out today to discuss your project needs and start collaborating on something amazing!
           </p>
 
-          <div className="flex items-center gap-2 mt-auto">
+          <div className="flex items-center gap-2">
             {socialLinks.map(({ href, icon, label }, key) => (
               <a
                 key={key}
@@ -168,7 +168,7 @@ const Contact = () => {
           className="xl:pl-10 2xl:pl-20"
         >
 
-          <div className="md:grid md:items-center md:grid-cols-2 md:gap-2">
+          <div className="md:grid md:items-start md:grid-cols-2 md:gap-2">
             <div className="mb-4">
               <label
                 htmlFor="name"
@@ -183,7 +183,7 @@ const Contact = () => {
                 id="name"
                 autoComplete="name"
                 required
-                placeholder="Dino Bajramovic"
+                placeholder="Alex Johnson"
                 className="text-field reveal-up"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -205,7 +205,7 @@ const Contact = () => {
                 id="email"
                 autoComplete="email"
                 required
-                placeholder="dino@example.com"
+                placeholder="alex@example.com"
                 className="text-field reveal-up"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
