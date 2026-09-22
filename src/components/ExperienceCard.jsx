@@ -46,7 +46,7 @@ const ExperienceCard = ({ project, onToggle, classes, style }) => {
   return (
     <article
       className={
-        'flex flex-col p-5 rounded-2xl bg-zinc-800 ring-1 ring-inset ring-zinc-50/5 md:p-6 ' +
+        'flex flex-col p-5 rounded-2xl bg-zinc-900/60 ring-1 ring-inset ring-zinc-50/5 ' +
         (classes || '')
       }
       style={style}

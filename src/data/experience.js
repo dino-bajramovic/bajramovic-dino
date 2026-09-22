@@ -11,16 +11,10 @@
  * links, repository names, teammates or implementation details.
  */
 
-export const experienceRole = {
-  company: 'Symphony',
-  title: 'Junior Full-Stack Engineer',
-  period: 'March 2026 – Present',
-  programNote: 'FutureExperts Program · March – September 2026',
-  intro:
-    "I joined Symphony through the FutureExperts Program and continued as a Junior Full-Stack Engineer. Most of that work lives in private, company-owned codebases — so instead of code, here's what I built, what I owned, and how I worked with the team."
-};
+export const experienceIntro =
+  "Most of my Symphony work lives in private, company-owned codebases — so instead of code, here's what I built and what I owned.";
 
-export const experienceProjects = [
+const fepProjects = [
   {
     id: 'platform',
     title: 'Internship & Talent-Management Platform',
@@ -30,32 +24,28 @@ export const experienceProjects = [
       { label: 'Product Manager', emphasis: true },
       { label: 'Full-Stack Developer' },
       { label: 'Team of 7' },
-      { label: 'Private · company-owned', icon: 'lock' }
+      { label: 'Private', icon: 'lock' }
     ],
-    tagline: 'Kept an inherited platform shipping, sprint after sprint — as both PM and developer.',
     summary:
-      "An internal platform that runs Symphony's internship program end to end — intern profiles, mentoring and evaluations, readiness tracking and leadership dashboards — with a built-in, workspace-based ticketing and sprint module.",
+      "Internal platform that runs Symphony's internship program end to end, with a built-in ticketing and sprint module.",
     highlights: [
-      'Led the product side: gathered requirements from our mentor, shaped ideas into priorities, wrote and assigned tickets, and planned sprints across the team, while shipping features myself',
-      'Turned feedback into user stories, acceptance criteria and ready-to-build tasks, and reported progress to the mentor every week',
-      'Built sprint-management features: sprint view, draft tickets, multi-status filtering, optimistic board updates (with a fix for concurrent ticket numbering) and AI-generated sprint summaries'
+      'Led the product side — requirements, priorities, tickets and sprint planning — while shipping features myself',
+      'Built sprint management: sprint view, draft tickets, filtering, optimistic board updates and AI sprint summaries',
+      "Migrated the platform's AI features to a new LLM model after the previous one was retired"
     ],
     moreHighlights: [
-      'Restored the platform’s AI features by migrating them to a new LLM model after the previous one was retired',
-      'Shipped primary/secondary mentor assignment, intern specializations, AI skills for intern profiles, and a better technology catalog, including fixes to CV-based technology detection',
-      'Added in-app notifications (e.g. when a ticket is assigned to you), a collapsible navigation sidebar, drag-and-drop quick actions, leadership settings and a skippable onboarding flow',
-      'Refactored a ~1,400-line ticket-details component into custom hooks and sub-components',
-      'Ran QA before each release: role-based flows, dashboards, attendance, daily stand-ups and AI features',
-      'Worked in a team of seven — five software engineers plus QA and DevOps — taking over a platform already in production and leading its next phase of development'
+      'Turned feedback into user stories and ready-to-build tasks, and reported progress weekly',
+      'Shipped mentor assignment, intern specializations, AI profile skills and a better technology catalog',
+      'Added in-app notifications, a collapsible sidebar, drag-and-drop quick actions and an onboarding flow',
+      'Refactored a ~1,400-line component into custom hooks and sub-components',
+      'Ran QA before each release across role-based flows, dashboards and AI features'
     ],
     stack: [
       'React',
-      'Vite',
-      'Tailwind CSS',
-      'TanStack Query',
       'Node.js',
       'Express',
       'MongoDB',
+      'TanStack Query',
       'Socket.IO',
       'Groq (LLM)',
       'Supabase'
@@ -64,59 +54,57 @@ export const experienceProjects = [
   {
     id: 'five-stack',
     title: '5-stack',
-    context: 'Symphony FutureExperts Program · Bank management system · Team project',
+    context: 'Bank management system · Team project',
     visibility: 'private',
     badges: [
       { label: 'Full-Stack Developer' },
       { label: 'Team of 6' },
-      { label: 'Private · company-owned', icon: 'lock' }
+      { label: 'Private', icon: 'lock' }
     ],
     summary:
-      'A full-stack bank management system — wallet, virtual cards, peer-to-peer transfers, spending analytics and an admin panel — built on a layered FastAPI backend and a component-driven React frontend.',
+      'Bank management system — wallet, virtual cards, transfers, analytics and an admin panel — on a layered FastAPI backend.',
     highlights: [
-      'Built the payment templates experience: browse saved templates, reuse one through a prefilled send-money flow, and delete with confirmation without affecting past transactions',
+      'Built payment templates: browse saved templates, reuse one through a prefilled send-money flow, delete safely',
       'Built admin data views with server-side filtering, debounced search and pagination',
-      'Set up the team’s AI-assisted development workflow — Claude Code skills, subagents and hooks',
-      'Picked up feature work across the layered backend (routers → services → repositories), implementing a share of the platform’s features end to end'
+      "Set up the team's AI-assisted workflow — Claude Code skills, subagents and hooks"
     ],
-    moreHighlights: [],
+    moreHighlights: [
+      'Picked up feature work across the layered backend (routers → services → repositories)'
+    ],
     stack: [
       'React',
-      'Vite',
-      'Tailwind CSS',
-      'shadcn/ui',
       'Redux Toolkit',
       'TanStack Table',
       'Zod',
       'FastAPI',
-      'SQLAlchemy (async)',
+      'SQLAlchemy',
       'PostgreSQL',
       'Alembic'
     ]
   },
   {
     id: 'optihire',
-    title: 'OptiHire · AI Job Description Generator & Optimizer',
-    context: 'FEP 2026 Hackathon · Public',
+    title: 'OptiHire · AI Job Description Generator',
+    context: 'FEP 2026 Hackathon',
     visibility: 'public',
     badges: [
       { label: 'AI integration' },
-      { label: 'SEO scoring & optimization' },
+      { label: 'SEO scoring' },
       { label: 'Team of 5' },
-      { label: 'Public · Hackathon', tone: 'public' }
+      { label: 'Public', tone: 'public' }
     ],
     summary:
-      'Job descriptions are slow to write, inconsistent, and often carry biased language. OptiHire generates complete, inclusive JDs from a structured form — or diagnoses an existing JD and returns a corrected version side by side.',
+      'Generates inclusive job descriptions from a form, or diagnoses an existing one and returns a corrected version side by side.',
     highlights: [
-      'Owned the SEO side: every generated description gets a quality score, then runs through an optimization pass that rewrites it to read better and rank better',
-      'Worked on the AI implementation behind both modes — generate from scratch and optimize an existing JD — driven by one strict ruleset for structure, tone and inclusive language',
-      'Severity-coded diagnostics (critical / moderate / minor) showing the exact phrase and the fix, in a before/after comparison view'
+      'Owned the SEO side: each description gets a quality score, then an optimization pass rewrites it to read and rank better',
+      'Worked on the AI implementation behind both modes, driven by one strict ruleset for structure and tone',
+      'Severity-coded diagnostics showing the exact phrase and the fix'
     ],
     moreHighlights: [
-      'One-click refinements, PDF upload with text extraction, and export to TXT, Markdown or a branded PNG',
-      'Gemini API calls go through a Vercel serverless proxy, so the API key never reaches the browser'
+      'One-click refinements, PDF upload with text extraction, and export to TXT, Markdown or PNG',
+      'Gemini API calls run through a Vercel serverless proxy, so the key never reaches the browser'
     ],
-    stack: ['React', 'Vite', 'Gemini API', 'Vercel Serverless Functions'],
+    stack: ['React', 'Vite', 'Gemini API', 'Vercel Functions'],
     links: [
       {
         label: 'Live app',
@@ -125,6 +113,33 @@ export const experienceProjects = [
         primary: true
       }
     ]
+  }
+];
+
+export const experienceRoles = [
+  {
+    id: 'symphony-engineer',
+    company: 'Symphony',
+    title: 'Junior Full-Stack / AI Engineer',
+    period: 'September 2026 – Present',
+    current: true
+  },
+  {
+    id: 'symphony-fep',
+    company: 'Symphony',
+    title: 'FutureExperts Program',
+    period: 'March – September 2026',
+    summary: 'Six-month program: an internal platform as PM and developer, a team banking app, and an AI hackathon project.',
+    projects: fepProjects
+  },
+  {
+    id: 'zira',
+    company: 'ZIRA Talent Academy',
+    title: 'Internship',
+    period: 'September – November 2025',
+    summary:
+      'Full-stack app (Spring Boot microservices + Angular). Built REST APIs, implemented backend logic (DTO, DAO), and integrated the frontend in an Agile environment.',
+    stack: ['Spring Boot', 'Microservices', 'Angular', 'REST API', 'Agile']
   }
 ];
 
