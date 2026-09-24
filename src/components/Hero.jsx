@@ -19,7 +19,7 @@ const Hero = () => {
       <div className="container items-center lg:grid lg:grid-cols-2 lg:gap-10">
 
         <div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 mb-7 md:mb-8">
             <figure className="img-box w-9 h-9 rounded-lg">
               <img
                 src="/images/avatar-1.png"
@@ -40,12 +40,14 @@ const Hero = () => {
           </div>
 
           {/* Too bulky on a phone, but it is still the page's h1: sr-only keeps
-              it in the document for screen readers and crawlers. */}
-          <h1 className="headline-1 max-w-[15ch] sm:max-w-[20ch] lg:max-w-[15ch] mt-5 mb-4 lg:mb-6 sr-only md:not-sr-only">
+              it in the document for screen readers and crawlers.
+              Note: not-sr-only resets margin to 0, so the spacing around this
+              heading has to live on the siblings instead. */}
+          <h1 className="headline-1 max-w-[15ch] sm:max-w-[20ch] lg:max-w-[15ch] sr-only md:not-sr-only">
             Full-stack web developer building scalable projects & modern websites
           </h1>
 
-          <p className="text-zinc-300 text-lg mb-6 max-w-[40ch]">
+          <p className="text-zinc-300 text-lg mb-6 max-w-[40ch] md:mt-4 lg:mt-6">
             I design, build, and ship scalable projects and modern websites with performant React/Node.js from concept to launch, with a clear path to contact and collaboration.
           </p>
 
