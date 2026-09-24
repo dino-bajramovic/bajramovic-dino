@@ -39,7 +39,9 @@ const Hero = () => {
             </div>
           </div>
 
-          <h1 className="headline-1 max-w-[15ch] sm:max-w-[20ch] lg:max-w-[15ch] mt-5 mb-4 lg:mb-6">
+          {/* Too bulky on a phone, but it is still the page's h1: sr-only keeps
+              it in the document for screen readers and crawlers. */}
+          <h1 className="headline-1 max-w-[15ch] sm:max-w-[20ch] lg:max-w-[15ch] mt-5 mb-4 lg:mb-6 sr-only md:not-sr-only">
             Full-stack web developer building scalable projects & modern websites
           </h1>
 

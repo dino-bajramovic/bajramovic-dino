@@ -10,6 +10,7 @@
 import SkillCard from "./SkillCard";
 import { useEffect, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
 
 const skillCategories = [
@@ -107,7 +108,10 @@ const skillCategories = [
 
 
 const Skill = () => {
-  const CATEGORY_LIMIT = 6;
+  // Six per category is a lot of scrolling on a phone, so show three there.
+  const isWide = useMediaQuery('(min-width: 768px)');
+  const CATEGORY_LIMIT = isWide ? 6 : 3;
+
   const [showAll, setShowAll] = useState(false);
 
   const hasExtra = skillCategories.some(({ items }) => items.length > CATEGORY_LIMIT);

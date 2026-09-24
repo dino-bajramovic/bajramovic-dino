@@ -8,7 +8,7 @@
  * Components
  */
 import ProjectCard from "./ProjectCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 
@@ -57,11 +57,20 @@ const Work = () => {
   const [showAll, setShowAll] = useState(false);
   const hasExtra = works.length > WORK_LIMIT;
   const visibleWorks = showAll ? works : works.slice(0, WORK_LIMIT);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     // Ensure newly shown cards are measured by ScrollTrigger/animations
     ScrollTrigger.refresh();
   }, [showAll]);
+
+  // Below md the cards are a one-at-a-time horizontal strip, so a step is
+  // exactly one card wide.
+  const scrollByCard = (direction) => {
+    const container = scrollRef.current;
+    if (!container) return;
+    container.scrollBy({ left: direction * container.clientWidth, behavior: 'smooth' });
+  };
 
   return (
     <section
@@ -70,11 +79,35 @@ const Work = () => {
     >
       <div className="container">
 
-        <h2 className="headline-2 mb-8 reveal-up">
-          Featured projects & case studies
-        </h2>
+        <div className="flex items-center justify-between gap-4 mb-8">
+          <h2 className="headline-2 reveal-up">
+            Featured projects & case studies
+          </h2>
 
-        <div className="grid gap-x-4 gap-y-5 grid-cols-[repeat(auto-fill,_minmax(280px,_1fr))]">
+          <div className="flex items-center gap-2 shrink-0 md:hidden reveal-up">
+            <button
+              type="button"
+              onClick={() => scrollByCard(-1)}
+              aria-label="Previous project"
+              className="w-10 h-10 flex items-center justify-center rounded-full ring-2 ring-inset ring-zinc-50/10 text-zinc-300 hover:bg-zinc-800 transition-colors"
+            >
+              <span className="material-symbols-rounded" aria-hidden="true">chevron_left</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollByCard(1)}
+              aria-label="Next project"
+              className="w-10 h-10 flex items-center justify-center rounded-full ring-2 ring-inset ring-zinc-50/10 text-zinc-300 hover:bg-zinc-800 transition-colors"
+            >
+              <span className="material-symbols-rounded" aria-hidden="true">chevron_right</span>
+            </button>
+          </div>
+        </div>
+
+        <div
+          ref={scrollRef}
+          className="flex gap-4 overflow-x-auto overscroll-x-contain scrollbar-hide md:grid md:gap-x-4 md:gap-y-5 md:overflow-visible md:grid-cols-[repeat(auto-fill,_minmax(280px,_1fr))]"
+        >
           {visibleWorks.map(({ imgSrc, title, tags, projectLink }, index) => (
             <ProjectCard
               key={`${title}-${index}`}
@@ -82,7 +115,7 @@ const Work = () => {
               title={title}
               tags={tags}
               projectLink={projectLink}
-              classes="reveal-up"
+              classes="w-full shrink-0 md:w-auto reveal-up"
               style={showAll ? { opacity: 1, transform: 'none' } : undefined}
             />
           ))}
