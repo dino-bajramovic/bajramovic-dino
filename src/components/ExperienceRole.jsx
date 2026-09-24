@@ -8,7 +8,8 @@
  * Node modules
  */
 import PropTypes from 'prop-types';
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
+import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 
@@ -78,12 +79,26 @@ const ExperienceRole = ({ role }) => {
   const [expanded, setExpanded] = useState(false);
   const panelId = `${useId()}-projects`;
   const expandable = (role.projects || []).length > 0;
+  const rootRef = useRef(null);
 
   // Expanding/collapsing changes page height, which invalidates every
   // scroll-driven reveal below this point. Refresh after the browser has
   // laid the new content out - refreshing inside the click handler measures
   // the old layout and leaves the sections below stuck at opacity 0.
   useEffect(() => {
+    const element = rootRef.current;
+
+    if (expanded && element) {
+      // The .reveal-up tween is scrubbed and only finishes once the bottom of
+      // the element reaches 80% of the viewport. Expanded, this card is taller
+      // than a phone screen, so that never happens and it sits half faded.
+      // Release it from the scrub and pin it visible instead.
+      ScrollTrigger.getAll().forEach((trigger) => {
+        if (trigger.trigger === element) trigger.kill();
+      });
+      gsap.set(element, { opacity: 1, y: 0 });
+    }
+
     const frame = requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => cancelAnimationFrame(frame);
   }, [expanded]);
@@ -93,7 +108,10 @@ const ExperienceRole = ({ role }) => {
   };
 
   return (
-    <div className="rounded-2xl bg-zinc-800/50 ring-1 ring-inset ring-zinc-50/5 reveal-up">
+    <div
+      ref={rootRef}
+      className="rounded-2xl bg-zinc-800/50 ring-1 ring-inset ring-zinc-50/5 reveal-up"
+    >
 
       {expandable ? (
         <button
