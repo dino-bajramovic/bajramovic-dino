@@ -91,13 +91,16 @@ const ExperienceCard = ({ project, classes, style }) => {
         </p>
       )}
 
-      <p className="text-zinc-300 text-sm leading-relaxed mt-3">
+      {/* Below md the card stays a summary: title, context, badges and the
+          footer only. The detail below would make the expanded role several
+          screens tall on a phone. */}
+      <p className="hidden md:block text-zinc-300 text-sm leading-relaxed mt-3">
         {project.summary}
       </p>
 
       <ul
         id={listId}
-        className="flex flex-col gap-2.5 mt-4 text-sm text-zinc-300"
+        className="hidden md:flex flex-col gap-2.5 mt-4 text-sm text-zinc-300"
       >
         {project.highlights.map((item) => (
           <li key={item} className="flex gap-2.5">
@@ -130,7 +133,7 @@ const ExperienceCard = ({ project, classes, style }) => {
           onClick={handleToggle}
           aria-expanded={expanded}
           aria-controls={listId}
-          className={`inline-flex items-center gap-1 self-start mt-3 -mx-1 px-1 py-1 rounded-lg text-sm font-medium text-sky-400 hover:text-sky-300 transition-colors ${focusRing}`}
+          className={`hidden md:inline-flex items-center gap-1 self-start mt-3 -mx-1 px-1 py-1 rounded-lg text-sm font-medium text-sky-400 hover:text-sky-300 transition-colors ${focusRing}`}
         >
           {expanded ? 'Show less' : `Show ${moreHighlights.length} more`}
           <span className="material-symbols-rounded text-[18px]" aria-hidden="true">
@@ -139,7 +142,7 @@ const ExperienceCard = ({ project, classes, style }) => {
         </button>
       )}
 
-      <ul className="flex flex-wrap items-center gap-2 mt-5">
+      <ul className="hidden md:flex flex-wrap items-center gap-2 mt-5">
         {project.stack.map((tech) => (
           <li
             key={tech}
